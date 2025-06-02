@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean, create_engine
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean, create_engine, Text
 # from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
@@ -27,6 +27,7 @@ class Member(Base):
 
     id = Column(Integer, primary_key=True)
     full_name = Column(String, nullable=False)
+    passport = Column(Text)
     weight = Column(Float, nullable=True)
     bmi = Column(Float, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)

@@ -1,12 +1,15 @@
 # import fastapi package
-from fastapi import FastAPI
-from fastapi import Depends
+from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from models import get_db, Member, Base
+from models import get_db, Member, Base, Subscription
 
 # initialize it
 app = FastAPI()
+
+# (*) allow network requests from all servers
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
 
 # define routes
@@ -20,6 +23,7 @@ def index():
 def member(session: Session = Depends(get_db)):
     # retrieves all products from the table
     members = session.query(Member).all()
+    # subscriptions = session.query(Subscription).all()
     # subscriptions = session.query(Subscriptions).all()
     # use sqlalchemy to retrieve all member from the db
     return members
