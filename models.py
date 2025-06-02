@@ -1,42 +1,48 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean
-# from sqlalchemy.orm import relationship
-from datetime import datetime
+# import fastapi package
+from fastapi import FastAPI
+from fastapi import Depends
+from sqlalchemy.orm import Session
 
-Base = declarative_base()
+# from models import get_db, Member
 
-class Member(Base):
-    __tablename__ = 'members'
-
-    id = Column(Integer, primary_key=True)
-    full_name = Column(String, nullable=False)
-    weight = Column(Float, nullable=True)
-    bmi = Column(Float, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    # Relationships
-    # subscriptions = relationship('Subscription', back_populates='member', cascade="all, delete-orphan")
-    # check_ins = relationship('CheckIn', back_populates='member', cascade="all, delete-orphan")
+# initialize it
+app = FastAPI()
 
 
-class Subscription(Base):
-    __tablename__ = 'subscriptions'
+# define routes
+@app.get('/')
+def index():
+    return {"message": "Welcome to my first backend app"}
 
-    id = Column(Integer, primary_key=True)
-    member_id = Column(Integer, ForeignKey('members.id'), nullable=False)
-    plan_name = Column(String, nullable=False)  # e.g., "Monthly", "Annual"
-    start_date = Column(DateTime, default=datetime.utcnow)
-    end_date = Column(DateTime, nullable=False)
-    is_active = Column(Boolean, default=True)
+# member
+# http://localhost:8000/member
+@app.get('/member')
+def member(session = Depends(get_db)):
+    # retrieves all products from the table
+    member = session.query(Member).all()
+    # subscriptions = session.querry(Subscriptions).all()
+    # use sqlalchemy to retrieve all member from the db
+    return[]
 
-    # member = relationship('Member', back_populates='subscriptions')
+# http://localhost:8000/member
+@app.post('/member')
+def add_member():
+    return{"message": "Member added successfully"}
 
+# http://localhost:8000/member/3
+@app.get('/member/{member_id}')
+def get_member(member_id: int, session: Session = Depends(get_db)):
+    print("Member id:", member_id)
+    return {}
 
-class CheckIn(Base):
-    __tablename__ = 'check_ins'
+# http://localhost:8000/member/3
+@app.patch('/member/{id}')
+def update_member(id: int):
+    print(f"product of id {id} updatedd")
+    return {"message": "Member updated successfully"}
 
-    id = Column(Integer, primary_key=True)
-    member_id = Column(Integer, ForeignKey('members.id'), nullable=False)
-    check_in_time = Column(DateTime, default=datetime.utcnow)
-
-    # member = relationship('Member', back_populates='check_ins')
+# http://localhost:8000/member/3
+@app.delete('/member/{id}')
+def delete_member(id: int):
+    print(f"Member of id {id} deleted")
+    return {"message": "Member deleted successfully"}
