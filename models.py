@@ -30,6 +30,7 @@ class Member(Base):
     passport = Column(Text)
     weight = Column(Float, nullable=True)
     bmi = Column(Float, nullable=True)
+    subscription_id = Column(Integer, ForeignKey("subscriptions.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationships
