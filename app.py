@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from models import get_db, Member
+from models import get_db, Member, Base
 
 # initialize it
 app = FastAPI()
