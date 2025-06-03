@@ -83,3 +83,10 @@ def add_subscription(subscription: SubscriptionSchema, db: Session = Depends(get
     db.commit()
 
     return {"message": "Subscription created successfully"}
+
+
+
+@app.get('/subscription')
+def get_subscription(db: Session = Depends(get_db)):
+    subscription = db.query(Subscription).all()
+    return subscription
