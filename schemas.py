@@ -18,9 +18,8 @@ from typing import Optional, List
 #     end_date: Optional[datetime] = None
 #     is_active: bool
 
-from pydantic import BaseModel
-from datetime import datetime
-from typing import Optional, List
+
+
 
 
 # For creating/updating members (input)

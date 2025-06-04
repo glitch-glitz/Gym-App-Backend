@@ -45,7 +45,7 @@ def add_member(member: MemberCreateSchema, session: Session = Depends(get_db)):
         new_member = Member(**member.dict())
         session.add(new_member)
         session.commit()
-        session.refresh(new_member)  # to get updated id etc.
+        session.refresh(new_member)  
         return {"message": "Member added successfully", "id": new_member.id}
     except Exception as e:
         session.rollback()
